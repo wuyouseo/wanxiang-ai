@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-打开后前往「设置」页填入 Agnes API Key 即可开始创作。完整部署说明（Cloudflare Pages / Vercel / Netlify 三平台）见 [webapp/README.md](webapp/README.md#部署)。
+打开后前往「设置」页填入 Agnes API Key 即可开始创作。完整部署教程（含推送到 GitHub、Cloudflare Pages / Vercel / Netlify 三平台详细步骤、常见问题排查）见 [webapp/README.md](webapp/README.md#部署到托管平台详细教程)。
 
 ## 项目状态
 

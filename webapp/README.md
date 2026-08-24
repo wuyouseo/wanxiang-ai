@@ -54,29 +54,90 @@ api/agnes/[...path].ts            # Vercel Edge Function 入口
 netlify/edge-functions/proxy.ts   # Netlify Edge Function 入口
 ```
 
-## 部署
+## 部署到托管平台（详细教程）
 
-三个平台使用同一份代码库，构建命令均为 `npm run build`，产物目录均为 `dist`。
+三个平台使用同一份代码库，构建命令均为 `npm run build`，产物目录均为 `dist`。三者都是「关联 Git 仓库 → 自动构建部署」的模式，所以第一步都一样：先把代码推送到 GitHub。
 
-### Cloudflare Pages
+> ⚠️ **本仓库的根目录是 `docs/` `wireframes/` `webapp/` 三个文件夹的上一级**，而真正要部署的 Vite 项目在 `webapp/` 子目录里（`package.json` 在这里）。所以下面每个平台在配置时，都要把 **Root Directory / Base directory 设为 `webapp`**，这是最容易漏掉、也是构建失败最常见的原因，务必留意。
 
-1. 新建 Pages 项目，关联本仓库
-2. Build command: `npm run build`　Build output directory: `dist`
-3. `functions/api/agnes/[[path]].ts` 会被自动识别为 Pages Functions，无需额外配置
-4. （可选）如果用 `wrangler pages deploy` 命令行部署，已提供 `wrangler.toml`
+### 第 0 步：把代码推送到 GitHub（三个平台通用前提）
 
-### Vercel
+1. 打开 [github.com](https://github.com)，登录后点右上角 `+` → **New repository**
+2. 填仓库名（例如 `ai-studio`），**不要**勾选 "Add a README file" / ".gitignore" / "license"（本地已经有提交了，勾选会导致推送冲突），选择 Public 或 Private 均可，点 **Create repository**
+3. 创建成功后，GitHub 会显示一段命令，在本项目根目录（`README.md` 所在的这一级，不是 `webapp/`）执行：
 
-1. Import 本仓库，框架预设选择 "Vite"
-2. Build command: `npm run build`　Output directory: `dist`
-3. `api/agnes/[...path].ts` 会被自动识别为 Edge Function（已在文件内声明 `export const config = { runtime: "edge" }`）
-4. `vercel.json` 已配置 SPA 回退规则（`/api/*` 之外的路径都指向 `index.html`）
+   ```bash
+   git remote add origin https://github.com/<你的用户名>/<仓库名>.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-### Netlify
+4. 如果推送时要求登录，GitHub 网页密码已不支持直接推送，需要用 [Personal Access Token](https://github.com/settings/tokens) 代替密码，或者装 [GitHub Desktop](https://desktop.github.com/) 用图形界面登录后推送。
 
-1. 新建站点，关联本仓库
-2. `netlify.toml` 已声明构建命令 / 产物目录 / Edge Function 路由（`/api/agnes/*` → `netlify/edge-functions/proxy.ts`）与 SPA 回退规则
-3. 无需额外手动配置，直接部署即可
+推送成功后，GitHub 仓库页面能看到 `docs/`、`wireframes/`、`webapp/` 三个文件夹，就说明这一步完成了。
+
+---
+
+### 方式一：部署到 Cloudflare Pages
+
+1. 打开 [dash.cloudflare.com](https://dash.cloudflare.com)，注册/登录账号
+2. 左侧菜单进入 **Workers & Pages** → 点 **Create application** → 切到 **Pages** 标签 → **Connect to Git**
+3. 授权 Cloudflare 访问 GitHub，选择刚才推送的仓库，点 **Begin setup**
+4. 在构建配置页填写：
+   - **Project name**：自定义，会成为默认域名的一部分（`<name>.pages.dev`）
+   - **Production branch**：`main`
+   - **Framework preset**：选 `Vite`（没有的话选 `None` 手动填下面两项）
+   - **Build command**：`npm run build`
+   - **Build output directory**：`dist`
+   - 展开 **Root directory (advanced)**，填 **`webapp`** ← 关键一步
+5. 点 **Save and Deploy**，等待 1～2 分钟构建完成
+6. 构建成功后会给一个 `https://<name>.pages.dev` 的地址，`functions/api/agnes/[[path]].ts` 会被自动识别为 Pages Functions，无需额外配置
+7. （可选）在项目的 **Custom domains** 标签页绑定自己的域名
+8. （可选）也可以用命令行部署：`cd webapp && npx wrangler pages deploy dist`（已提供 `wrangler.toml`）
+
+### 方式二：部署到 Vercel
+
+1. 打开 [vercel.com](https://vercel.com)，可以直接用 GitHub 账号登录（会顺带完成授权）
+2. Dashboard 页点 **Add New...** → **Project**
+3. 在 Import 列表里找到刚才的仓库，点 **Import**（如果没看到，点 "Adjust GitHub App Permissions" 补充授权）
+4. 在配置页：
+   - **Framework Preset**：Vercel 通常会自动识别成 `Vite`
+   - 点击 **Root Directory** 右侧的 **Edit**，选择 **`webapp`** ← 关键一步
+   - Build Command / Output Directory 保持默认（`npm run build` / `dist`，Vite 预设已经对好）
+5. 点 **Deploy**，等待构建完成
+6. 完成后会给一个 `https://<project>.vercel.app` 的地址，`api/agnes/[...path].ts` 会被自动识别为 Edge Function（文件内已声明 `export const config = { runtime: "edge" }`），`vercel.json` 里配置的 SPA 回退规则也会自动生效
+7. （可选）在 **Settings → Domains** 绑定自定义域名
+
+### 方式三：部署到 Netlify
+
+1. 打开 [app.netlify.com](https://app.netlify.com)，注册/登录
+2. 点 **Add new site** → **Import an existing project** → 选 **GitHub** → 授权 → 选择仓库
+3. 在配置页：
+   - **Base directory**：填 **`webapp`** ← 关键一步
+   - **Build command**：`npm run build`
+   - **Publish directory**：`dist`（相对于 Base directory，也就是实际的 `webapp/dist`）
+4. 点 **Deploy site**，等待构建完成
+5. 完成后会给一个 `https://<random-name>.netlify.app` 的地址；`webapp/netlify.toml` 里声明的 Edge Function 路由（`/api/agnes/*` → `netlify/edge-functions/proxy.ts`）和 SPA 回退规则会在 Base directory 生效后自动读取，无需额外手动配置
+6. （可选）在 **Site configuration → Domain management** 绑定自定义域名，或在 **Site name** 里改一个好记的默认子域名
+
+---
+
+### 部署后自检清单
+
+无论用哪个平台，部署完成后按这个顺序验证一遍：
+
+1. 打开分配到的域名，确认首页能正常打开（Landing 页正常渲染）
+2. 前往「设置」页填入你的 Agnes API Key，点 **测试连接** —— 这一步能同时验证「前端能访问」和「Edge Function 代理能正常转发请求」两件事，是最关键的检查点
+3. 试着在「文生图」里生成一张图，确认完整链路（前端 → 代理函数 → Agnes API → 返回图片）没问题
+
+### 常见问题排查
+
+| 现象 | 大概率原因 |
+|---|---|
+| 构建失败，提示找不到 `package.json` 或 `vite` 命令 | Root Directory / Base directory 没填 `webapp`，平台在仓库根目录找构建脚本，自然找不到 |
+| 页面能打开，但「测试连接」提示网络错误 | 打开浏览器开发者工具的 Network 面板，看 `/api/agnes/...` 请求的响应；如果是 404，说明 Edge Function 没被正确识别部署，去对应平台的 Functions/Edge Functions 面板确认是否列出了这个函数，一般还是 Root/Base Directory 没配对 |
+| 页面路由刷新后 404（比如直接访问 `/settings` 报 404） | Cloudflare 检查 `webapp/public/_redirects` 是否被打包进 `dist/`；Vercel 检查 `webapp/vercel.json` 是否生效；Netlify 检查 `webapp/netlify.toml` 的 `[[redirects]]` 是否生效 |
+| 以后想去掉这层子目录结构，部署配置更省心 | 可以把 `webapp/` 整个目录单独建一个新仓库推送，这样三个平台都不需要再配置 Root/Base Directory 了 |
 
 ## 扩展新的模型服务商
 
