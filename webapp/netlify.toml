@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[edge_functions]]
+  path = "/api/agnes/*"
+  function = "proxy"
+
+# SPA fallback for client-side routing. The edge_functions rule above takes
+# priority for /api/agnes/*, so this never intercepts proxy requests.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

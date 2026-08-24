@@ -1,0 +1,4 @@
+# Cloudflare Pages (and Netlify, which also reads this file) SPA fallback.
+# Pages Functions under /api/agnes/* are matched first automatically and
+# never fall through to this rule.
+/*    /index.html   200

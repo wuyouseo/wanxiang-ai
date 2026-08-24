@@ -1,0 +1,21 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 1100 },
+    { "file": "WorkbenchT2I.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 1180 },
+    { "file": "WorkbenchI2I.dc.html", "x": 3120, "y": 0, "w": 1440, "h": 1200 },
+    { "file": "WorkbenchMulti.dc.html", "x": 4680, "y": 0, "w": 1440, "h": 1220 },
+    { "file": "WorkbenchVideo.dc.html", "x": 6240, "y": 0, "w": 1440, "h": 1300 },
+    { "file": "TaskCenter.dc.html", "x": 7800, "y": 0, "w": 1440, "h": 950 },
+    { "file": "Gallery.dc.html", "x": 9360, "y": 0, "w": 1440, "h": 1050 },
+    { "file": "Settings.dc.html", "x": 10920, "y": 0, "w": 1440, "h": 1050 },
+    { "file": "MobileWorkbench.dc.html", "x": 0, "y": 1450, "w": 390, "h": 844 },
+    { "file": "MobileGallery.dc.html", "x": 550, "y": 1450, "w": 390, "h": 844 }
+  ],
+  "annotations": [
+    { "id": "note-flow", "x": 0, "y": -200, "w": 900, "text": "主创作流程：首页/引导 → 选择功能Tab → 输入提示词或上传素材 → (可选)一键优化提示词 → 设置生成参数 → 点击生成 → 查看结果并可收藏/下载/继续创作" },
+    { "id": "note-mvp", "x": 0, "y": 1170, "w": 420, "text": "MVP 可选方案：省略首页，首次访问直接进入工作台，用顶部引导条提示配置 API Key，降低开发量" },
+    { "id": "note-async", "x": 6240, "y": -200, "w": 420, "text": "视频生成为异步任务：创建后立即出现任务卡片并转入任务中心轮询（1-2秒/次），用户可继续在工作台做其他创作，不被阻塞" },
+    { "id": "note-mobile", "x": 0, "y": 1270, "w": 560, "text": "移动端关键页面示意：三栏桌面布局收为单栏堆叠，参数区可折叠，底部固定生成入口与全局导航" }
+  ],
+  "launch": { "view": "canvas" }
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#ffffff; font-family:'Patrick Hand','Segoe Print','Comic Sans MS',cursive,sans-serif; color:#222222; }
+  a { color:#333333; }
+  .wf-label { font-size:12px; color:#999999; }
+  .wf-box { border:1.5px solid #333333; }
+  .wf-box-light { border:1px solid #bbbbbb; }
+  .wf-btn { border:2px solid #222222; border-radius:6px; padding:10px 22px; font-size:17px; background:#ffffff; text-align:center; }
+  .wf-chip { border:1px solid #777777; border-radius:999px; padding:5px 14px; font-size:14px; background:#f6f6f6; }
+  .wf-chip-active { background:#222222; color:#ffffff; border-color:#222222; }
+  .wf-badge { border:1px solid #333333; border-radius:999px; padding:3px 12px; font-size:13px; background:#eeeeee; white-space:nowrap; }
+  .wf-badge-ok { border-color:#2e7d32; color:#2e7d32; background:#eef7ee; }
+  .wf-badge-err { border-color:#c62828; color:#c62828; background:#fdecec; }
+  .wf-ph { background:#eeeeee; border:1px solid #999999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:#999999; font-size:13px; text-align:center; }
+  .wf-navlink { font-size:15px; padding-bottom:2px; color:#333333; }
+  .wf-navlink-active { border-bottom:2px solid #222222; font-weight:bold; }
+</style>
+</helmet>
+<div style="width:1440px;background:#ffffff;position:relative;">
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#333333" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M10 9l6 3-6 3z" fill="#888888"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#777777" stroke-width="1.5"/><path d="M12 7v5l4 2" fill="none" stroke="#777777" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#2e7d32" stroke-width="1.5"/><path d="M8 12l3 3 5-6" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="none" stroke="#c62828" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5M12 17h.01" stroke="#c62828" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M10 8l6 4-6 4z" fill="#333333"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="#555555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-retry" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.6 5.9M4 12V6M4 12h6" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  </svg>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;border-bottom:2px solid #333333;">
+    <div style="display:flex;align-items:center;gap:36px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">A</div>
+        <span style="font-size:19px;font-weight:bold;">AI 创作站</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <span class="wf-navlink">创作工作台</span>
+        <span class="wf-navlink">历史画廊</span>
+        <span class="wf-navlink wf-navlink-active">任务中心</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#222222;"></div>
+        <span style="font-size:14px;color:#555555;">API Key 已连接</span>
+      </div>
+      <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18"><use href="#i-gear"></use></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:32px 48px;display:flex;flex-direction:column;gap:22px;">
+    <div>
+      <div style="font-size:24px;font-weight:bold;margin-bottom:4px;">任务中心</div>
+      <span class="wf-label">视频异步生成任务列表，创建后自动轮询状态（约每 1–2 秒一次）</span>
+    </div>
+
+    <div style="display:flex;gap:10px;">
+      <span class="wf-chip wf-chip-active">全部</span>
+      <span class="wf-chip">排队中</span>
+      <span class="wf-chip">生成中</span>
+      <span class="wf-chip">已完成</span>
+      <span class="wf-chip">失败</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
+      <div class="wf-box-light" style="padding:16px 20px;display:flex;align-items:center;gap:20px;">
+        <div class="wf-ph" style="width:96px;height:64px;flex-shrink:0;"><svg width="20" height="20"><use href="#i-video"></use></svg></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;">
+          <span style="font-size:15px;">[提示词摘要] 人物从首帧姿态自然转身走向窗边，镜头缓慢推进……</span>
+          <div style="display:flex;gap:10px;"><span class="wf-badge">首尾帧控制</span><span style="font-size:12px;color:#888888;">创建于 3 分钟前</span></div>
+        </div>
+        <div class="wf-badge" style="display:flex;align-items:center;gap:6px;"><svg width="14" height="14"><use href="#i-clock"></use></svg>排队中</div>
+        <div style="display:flex;gap:14px;color:#555555;"><svg width="17" height="17"><use href="#i-trash"></use></svg></div>
+      </div>
+
+      <div class="wf-box-light" style="padding:16px 20px;display:flex;align-items:center;gap:20px;">
+        <div class="wf-ph" style="width:96px;height:64px;flex-shrink:0;"><svg width="20" height="20"><use href="#i-video"></use></svg></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;">
+          <span style="font-size:15px;">[提示词摘要] 雨后的未来城市街道，霓虹灯倒映在地面，一辆银色跑车缓慢驶过……</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="wf-badge">文生视频</span>
+            <span style="font-size:12px;color:#888888;">创建于 1 分钟前</span>
+            <div class="wf-box-light" style="height:6px;width:160px;position:relative;"><div style="position:absolute;left:0;top:0;bottom:0;width:62%;background:#333333;"></div></div>
+            <span style="font-size:12px;color:#555555;">62%</span>
+          </div>
+        </div>
+        <div class="wf-badge" style="display:flex;align-items:center;gap:6px;"><svg width="14" height="14"><use href="#i-clock"></use></svg>生成中</div>
+        <div style="display:flex;gap:14px;color:#555555;"><svg width="17" height="17"><use href="#i-trash"></use></svg></div>
+      </div>
+
+      <div class="wf-box-light" style="padding:16px 20px;display:flex;align-items:center;gap:20px;">
+        <div class="wf-ph" style="width:96px;height:64px;flex-shrink:0;"><svg width="20" height="20"><use href="#i-play"></use></svg></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;">
+          <span style="font-size:15px;">[提示词摘要] 以参考图中的角色和美术风格为参考，角色在花田中自然奔跑……</span>
+          <div style="display:flex;gap:10px;"><span class="wf-badge">图片参考</span><span style="font-size:12px;color:#888888;">创建于 12 分钟前 · 耗时 48 秒</span></div>
+        </div>
+        <div class="wf-badge wf-badge-ok" style="display:flex;align-items:center;gap:6px;"><svg width="14" height="14"><use href="#i-check"></use></svg>已完成</div>
+        <div style="display:flex;gap:14px;color:#555555;">
+          <svg width="17" height="17"><use href="#i-download"></use></svg>
+          <svg width="17" height="17"><use href="#i-trash"></use></svg>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="padding:16px 20px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:20px;">
+          <div class="wf-ph" style="width:96px;height:64px;flex-shrink:0;"><svg width="20" height="20"><use href="#i-video"></use></svg></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;">
+            <span style="font-size:15px;">[提示词摘要] 以 &lt;Picture 1&gt; &lt;Picture 2&gt; &lt;Picture 3&gt; &lt;Picture 4&gt; &lt;Picture 5&gt; &lt;Picture 6&gt; 为参考……</span>
+            <div style="display:flex;gap:10px;"><span class="wf-badge">图片参考</span><span style="font-size:12px;color:#888888;">创建于 20 分钟前</span></div>
+          </div>
+          <div class="wf-badge wf-badge-err" style="display:flex;align-items:center;gap:6px;"><svg width="14" height="14"><use href="#i-alert"></use></svg>失败</div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="17" height="17"><use href="#i-retry"></use></svg>
+            <svg width="17" height="17"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+        <div style="margin-left:116px;padding:10px 14px;background:#fdecec;border:1px solid #c62828;font-size:13px;color:#a11d1d;display:flex;justify-content:space-between;align-items:center;">
+          <span>错误详情：images length must not exceed 5（参考图数量不能超过 5 张）</span>
+          <span style="text-decoration:underline;cursor:pointer;">复制参数去修正 →</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

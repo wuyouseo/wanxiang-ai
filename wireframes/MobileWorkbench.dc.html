@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#ffffff; font-family:'Patrick Hand','Segoe Print','Comic Sans MS',cursive,sans-serif; color:#222222; }
+  .wf-label { font-size:11px; color:#999999; }
+  .wf-box { border:1.5px solid #333333; }
+  .wf-box-light { border:1px solid #bbbbbb; }
+  .wf-dash { border:2px dashed #666666; }
+  .wf-btn-primary { border:3px solid #222222; border-radius:6px; font-weight:bold; background:#f7f7f7; text-align:center; }
+  .wf-chip { border:1px solid #777777; border-radius:999px; padding:6px 14px; font-size:13px; background:#f6f6f6; white-space:nowrap; }
+  .wf-chip-active { background:#222222; color:#ffffff; border-color:#222222; }
+  .wf-ph { background:#eeeeee; border:1px solid #999999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px; color:#999999; font-size:12px; text-align:center; }
+</style>
+</helmet>
+<div style="width:390px;height:844px;background:#ffffff;position:relative;overflow:hidden;">
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><circle cx="8" cy="10" r="1.8" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M4 17l5-5 3 3 4-5 4 5" fill="none" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#333333" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z" fill="#333333"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" fill="none" stroke="#333333" stroke-width="1.5"/><rect x="13" y="3" width="8" height="8" fill="none" stroke="#333333" stroke-width="1.5"/><rect x="3" y="13" width="8" height="8" fill="none" stroke="#333333" stroke-width="1.5"/><rect x="13" y="13" width="8" height="8" fill="none" stroke="#333333" stroke-width="1.5"/></symbol>
+    <symbol id="i-tasks" viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h9" fill="none" stroke="#333333" stroke-width="1.6" stroke-linecap="round"/><circle cx="20" cy="18" r="2" fill="none" stroke="#333333" stroke-width="1.5"/></symbol>
+  </defs>
+  </svg>
+
+  <div style="position:absolute;top:0;left:0;right:0;bottom:112px;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;border-bottom:2px solid #333333;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="wf-box" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px;">A</div>
+        <span style="font-size:16px;font-weight:bold;">创作工作台</span>
+      </div>
+      <div style="width:10px;height:10px;border-radius:50%;background:#222222;"></div>
+    </div>
+
+    <div style="display:flex;gap:8px;padding:14px 16px;overflow-x:auto;">
+      <div class="wf-chip wf-chip-active">文生图</div>
+      <div class="wf-chip">图生图</div>
+      <div class="wf-chip">多图合成</div>
+      <div class="wf-chip">视频生成</div>
+    </div>
+
+    <div style="padding:0 16px;display:flex;flex-direction:column;gap:14px;">
+      <div class="wf-box" style="padding:12px;display:flex;flex-direction:column;gap:8px;">
+        <div style="min-height:64px;color:#999999;font-size:14px;">[提示词输入框 —— 例如：一只橘猫坐在雨后的窗台上]</div>
+        <div style="display:flex;justify-content:flex-end;">
+          <div class="wf-chip" style="display:flex;align-items:center;gap:6px;"><svg width="13" height="13"><use href="#i-sparkle"></use></svg>优化提示词</div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;">更多参数（尺寸 · 比例）</span>
+        <svg width="16" height="16"><use href="#i-chevron-down"></use></svg>
+      </div>
+
+      <div class="wf-dash" style="padding:14px;display:flex;align-items:center;gap:10px;color:#888888;font-size:12px;">
+        <svg width="20" height="20"><use href="#i-upload"></use></svg>
+        <span>上传参考图（按当前功能显示）</span>
+      </div>
+
+      <div>
+        <span class="wf-label">生成结果</span>
+        <div class="wf-ph" style="height:220px;margin-top:6px;"><svg width="34" height="34"><use href="#i-image"></use></svg><span>结果预览</span></div>
+      </div>
+
+      <div>
+        <span class="wf-label">最近生成 → 横向滑动</span>
+        <div style="display:flex;gap:10px;margin-top:6px;padding-bottom:6px;overflow-x:auto;">
+          <div class="wf-ph" style="width:90px;height:90px;flex-shrink:0;"><svg width="18" height="18"><use href="#i-image"></use></svg></div>
+          <div class="wf-ph" style="width:90px;height:90px;flex-shrink:0;"><svg width="18" height="18"><use href="#i-image"></use></svg></div>
+          <div class="wf-ph" style="width:90px;height:90px;flex-shrink:0;"><svg width="18" height="18"><use href="#i-image"></use></svg></div>
+        </div>
+      </div>
+      <div style="height:8px;"></div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;height:112px;border-top:2px solid #333333;background:#ffffff;display:flex;flex-direction:column;">
+    <div style="padding:10px 16px;">
+      <div class="wf-btn-primary" style="padding:13px;font-size:16px;">生成</div>
+    </div>
+    <div style="flex:1;border-top:1px solid #dddddd;display:flex;align-items:center;justify-content:space-around;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;"><svg width="20" height="20"><use href="#i-image"></use></svg><span style="font-size:10px;font-weight:bold;">工作台</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#999999;"><svg width="20" height="20"><use href="#i-grid"></use></svg><span style="font-size:10px;">画廊</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#999999;"><svg width="20" height="20"><use href="#i-tasks"></use></svg><span style="font-size:10px;">任务</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;color:#999999;"><svg width="20" height="20"><use href="#i-gear"></use></svg><span style="font-size:10px;">设置</span></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
