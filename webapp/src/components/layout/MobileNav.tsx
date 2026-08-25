@@ -6,6 +6,7 @@ const items: { to: string; label: string; icon: IconName }[] = [
   { to: "/studio/text-to-image", label: "工作台", icon: "image" },
   { to: "/gallery", label: "画廊", icon: "grid" },
   { to: "/tasks", label: "任务", icon: "tasks" },
+  { to: "/help", label: "帮助", icon: "help" },
   { to: "/settings", label: "设置", icon: "gear" },
 ];
 

@@ -10,6 +10,7 @@ import { VideoGenerationPanel } from "./pages/workbench/VideoGenerationPanel";
 import { TaskCenterPage } from "./pages/TaskCenterPage";
 import { GalleryPage } from "./pages/GalleryPage";
 import { SettingsPage } from "./pages/SettingsPage";
+import { HelpPage } from "./pages/HelpPage";
 import { useSettingsStore } from "./store/useSettingsStore";
 import { useHistoryStore } from "./store/useHistoryStore";
 import { useTaskStore } from "./store/useTaskStore";
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/tasks" element={<TaskCenterPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/help" element={<HelpPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -9,6 +9,7 @@ const navItems = [
   { to: "/studio/text-to-image", label: "创作工作台", match: "/studio" },
   { to: "/gallery", label: "历史画廊", match: "/gallery" },
   { to: "/tasks", label: "任务中心", match: "/tasks" },
+  { to: "/help", label: "帮助中心", match: "/help" },
 ];
 
 const keyStatusMeta = {
