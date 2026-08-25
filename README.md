@@ -1,4 +1,4 @@
-# AI 创作站
+# 万象 AI
 
 在线 AI 生图 / 生视频工具站：文生图、图生图、多图合成、视频生成（文生视频 / 首尾帧控制 / 图片参考），并内置基于文本模型的提示词优化。纯前端、无管理后台，用户自备 [Agnes AI](https://www.agnes-ai.cn/zh-Hans/docs/overview) API Key（BYOK），密钥与生成历史仅保存在浏览器本地。
 

@@ -49,7 +49,7 @@ export function Footer() {
           </div>
         </div>
         <div className="flex flex-col-reverse items-start justify-between gap-3 border-t border-border-subtle pt-6 text-xs text-text-muted sm:flex-row sm:items-center">
-          <span>© {new Date().getFullYear()} AI 创作站 · 纯前端工具，无管理后台</span>
+          <span>© {new Date().getFullYear()} 万象 AI · 纯前端工具，无管理后台</span>
           <div className="flex items-center gap-1.5">
             <Icon name="lock" size={13} />
             密钥与生成记录仅保存在本设备

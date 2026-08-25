@@ -16,7 +16,7 @@ export function Logo({ size = 32, to = "/", showName = true }: { size?: number; 
   return (
     <Link to={to} className="focus-ring flex items-center gap-2.5 rounded-control">
       <LogoMark size={size} />
-      {showName && <span className="text-base font-semibold tracking-tight">AI 创作站</span>}
+      {showName && <span className="text-base font-semibold tracking-tight">万象 AI</span>}
     </Link>
   );
 }
