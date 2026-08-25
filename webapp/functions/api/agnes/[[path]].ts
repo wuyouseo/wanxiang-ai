@@ -2,7 +2,7 @@
 // Handles every request under /api/agnes/* — file-based routing via the
 // `[[path]]` catch-all segment. Thin adapter only: all logic lives in
 // src/server/proxy-core.ts so the three platform entry points stay in sync.
-import { handleAgnesProxy, stripProxyPrefix } from "../../../src/server/proxy-core";
+import { handleAgnesProxy, stripProxyPrefix } from "../../../src/server/proxy-core.ts";
 
 // Typed loosely (avoids a hard dependency on @cloudflare/workers-types);
 // Cloudflare Pages only needs this to be an async (context) => Response function.
