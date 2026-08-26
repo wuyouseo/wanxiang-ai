@@ -107,6 +107,45 @@ export function stripProxyPrefix(pathname: string, search: string): string {
   return `${rest || "/"}${search}`;
 }
 
+// Only ever relays from Agnes's own domain. This endpoint exists so the
+// client (lib/storage/artworkUpload.ts) can pull generated image/video bytes
+// same-origin — sidestepping whatever Agnes's CORS policy is — before
+// re-uploading them to Supabase Storage for permanent hosting. Without the
+// host allowlist this would be an open server-side URL fetcher (SSRF), so
+// every request is checked against AGNES_HOST's hostname before fetching.
+const RELAY_ALLOWED_HOSTNAME = new URL(AGNES_HOST).hostname;
+
+export async function handleImageRelay(request: Request): Promise<Response> {
+  const target = new URL(request.url).searchParams.get("url");
+  if (!target) return jsonResponse({ detail: "缺少 url 参数" }, 400);
+
+  let targetUrl: URL;
+  try {
+    targetUrl = new URL(target);
+  } catch {
+    return jsonResponse({ detail: "url 参数不合法" }, 400);
+  }
+  if (targetUrl.protocol !== "https:" || targetUrl.hostname !== RELAY_ALLOWED_HOSTNAME) {
+    return jsonResponse({ detail: "不允许转发该域名" }, 400);
+  }
+
+  let upstreamRes: Response;
+  try {
+    upstreamRes = await fetch(targetUrl.toString());
+  } catch {
+    return jsonResponse({ detail: "上游素材获取失败，请稍后重试" }, 502);
+  }
+  if (!upstreamRes.ok || !upstreamRes.body) {
+    return jsonResponse({ detail: "上游素材获取失败" }, upstreamRes.status || 502);
+  }
+
+  const headers = new Headers();
+  const contentType = upstreamRes.headers.get("content-type");
+  if (contentType) headers.set("content-type", contentType);
+  headers.set("cache-control", "no-store");
+  return new Response(upstreamRes.body, { status: 200, headers });
+}
+
 function jsonResponse(body: unknown, status: number): Response {
   return new Response(JSON.stringify(body), {
     status,

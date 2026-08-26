@@ -14,11 +14,13 @@ import { HelpPage } from "./pages/HelpPage";
 import { useSettingsStore } from "./store/useSettingsStore";
 import { useHistoryStore } from "./store/useHistoryStore";
 import { useTaskStore } from "./store/useTaskStore";
+import { useAuthStore } from "./store/useAuthStore";
 
 export default function App() {
   const hydrateSettings = useSettingsStore((s) => s.hydrate);
   const refreshHistory = useHistoryStore((s) => s.refresh);
   const hydrateTasks = useTaskStore((s) => s.hydrate);
+  const initAuth = useAuthStore((s) => s.init);
 
   useEffect(() => {
     refreshHistory();
@@ -27,7 +29,18 @@ export default function App() {
     hydrateSettings().then(() => {
       hydrateTasks(useSettingsStore.getState().settings);
     });
-  }, [hydrateSettings, refreshHistory, hydrateTasks]);
+    initAuth();
+    // Re-fetch history whenever who's signed in changes (login, logout, or
+    // switching accounts) so the gallery always reflects the right backend.
+    let lastUserId: string | undefined;
+    const unsubscribe = useAuthStore.subscribe((state) => {
+      if (state.user?.id !== lastUserId) {
+        lastUserId = state.user?.id;
+        refreshHistory();
+      }
+    });
+    return unsubscribe;
+  }, [hydrateSettings, refreshHistory, hydrateTasks, initAuth]);
 
   return (
     <Routes>

@@ -1,15 +1,16 @@
 # 万象 AI
 
-纯前端 AI 生图 / 生视频工具站：文生图、图生图、多图合成、视频生成（文生视频 / 首尾帧控制 / 图片参考）、提示词优化。用户自备 [Agnes AI](https://www.agnes-ai.cn/zh-Hans/docs/overview) API Key（BYOK），密钥与生成历史仅保存在浏览器本地，不设管理后台、不落库。
+AI 生图 / 生视频工具站：文生图、图生图、多图合成、视频生成（文生视频 / 首尾帧控制 / 图片参考）、提示词优化。用户自备 [Agnes AI](https://www.agnes-ai.cn/zh-Hans/docs/overview) API Key（BYOK），API Key 始终只保存在浏览器本地，不设管理后台。生成历史默认也只存在浏览器本地（IndexedDB）；登录后（邮箱验证链接，Supabase Auth）会自动同步到云端，换设备/换浏览器也能看到，见下方「云同步」。
 
 对应设计文档见 [`../docs`](../docs)：[需求文档](../docs/需求文档.md) · [网页设计文档](../docs/网页设计文档.md) · [API接口文档](../docs/API接口文档.md)。低保真线框图见 [`../wireframes`](../wireframes)。
 
 ## 技术栈
 
 - React 18 + TypeScript + Vite + Tailwind CSS
-- Zustand（全局状态：设置 / 历史 / 任务 / 提示）
+- Zustand（全局状态：设置 / 历史 / 任务 / 提示 / 账号）
 - React Router（客户端路由）
 - 各平台原生 Edge Function 作为无状态代理层（见「架构」）
+- Supabase（可选云同步：Auth + Postgres + Storage，见「云同步」）
 
 ## 本地开发
 
@@ -19,6 +20,8 @@ npm run dev
 ```
 
 首次打开后前往「设置」页填入 Agnes API Key（默认 Base URL 已预设为 `https://api.agnes-ai.cn/v1`），点击「测试连接」确认可用即可开始创作。
+
+若要在本地也启用云同步，复制 `.env.local.example`（或直接新建 `.env.local`）并填入 Supabase 项目的 URL 与 anon key，见下方「云同步」一节。不配置这两个变量时，云同步相关 UI 会自动隐藏，其余功能不受影响。
 
 ```bash
 npm run build    # 类型检查 + 生产构建，产物在 dist/
@@ -34,7 +37,25 @@ npm run lint     # 仅类型检查
 
 - **为什么要代理层**：Agnes API 是否对浏览器开放 CORS 未在官方文档中确认；代理层同时统一做请求前置校验（如视频 `size` 必须 `720P`、参考图不超过 5 张）与错误包装。若后续确认 CORS 完全开放，可将 `src/lib/http.ts` 中的路由逻辑改为直连，代理层保留作为可选增强。
 - **无状态**：代理层（`src/server/proxy-core.ts`）只做请求透传 + 参数校验，不记录、不缓存、不持久化任何请求体、响应体或 Authorization 头。
-- **密钥与历史数据流向**：API Key 使用 WebCrypto AES-GCM 加密后存于 `localStorage`；生成历史（含缩略图/完整参数）存于 `IndexedDB`。两者都只在用户自己的浏览器里，代理层和本仓库代码都不会把它们发送到除 Agnes 官方 API 之外的任何地方。
+- **密钥与历史数据流向**：API Key 使用 WebCrypto AES-GCM 加密后存于 `localStorage`，永远不离开浏览器、不上传云端。生成历史未登录时存于 `IndexedDB`（同样只在本机）；登录后改为读写 Supabase，见下方「云同步」。
+
+## 云同步（可选，基于 Supabase）
+
+不登录也能完整使用本站；登录（邮箱验证链接，不设密码）后，新生成的图片/视频会自动：
+
+1. 通过 `/api/agnes/relay-image`（复用同一份 Edge Function 代理，见上方架构图）把 Agnes 返回的素材同域下载下来——避免直接从浏览器 fetch 第三方域名可能遇到的 CORS 问题；
+2. 上传到 Supabase Storage 的 `artworks` 桶（按 `<user_id>/<记录id>.<ext>` 分文件夹），换成本站自己长期有效的链接——避免 Agnes 官方链接过期后历史记录里的图挂掉；
+3. 把这条记录（含永久链接、prompt、生成参数）写入 Supabase `history_items` 表，通过 Row Level Security 保证每个人只能读写自己的数据。
+
+### 接入步骤
+
+1. 在 [Supabase](https://supabase.com/dashboard) 建一个项目，拿到 **Project URL** 和 **anon / public key**（Project Settings → API；不要用 `service_role`，那是服务端专用密钥）。
+2. 打开该项目的 SQL Editor，把 [`supabase/schema.sql`](supabase/schema.sql) 的内容粘贴进去并 Run —— 会建好 `history_items` 表、RLS 策略、`artworks` Storage 桶。可以安全地重复执行。
+3. 打开 Authentication → URL Configuration，把 Site URL（以及 Redirect URLs，如两者不同）设为你实际部署的域名（如 `https://xxx.netlify.app`），否则登录邮件里的链接点击后会跳转失败。
+4. 本地开发：在 `webapp/` 下新建 `.env.local`（参考 `.env.local.example`），填入第 1 步拿到的两个值。
+5. 生产部署：在部署平台（Netlify: Site configuration → Environment variables；Vercel/Cloudflare 同理）新增同名的两个环境变量，重新触发一次构建。
+
+不配置这两个环境变量时，登录相关 UI 会自动隐藏，其余功能（含本地历史）不受影响。
 
 ### 目录结构
 
@@ -42,16 +63,20 @@ npm run lint     # 仅类型检查
 src/
   lib/
     providers/        # 模型服务商适配层（见下方「扩展新的模型服务商」）
-    storage/           # localStorage（设置）+ IndexedDB（历史）封装
+    storage/           # localStorage（设置）+ IndexedDB（历史，未登录时用）+ Supabase（历史，登录后用）封装
+    supabase.ts        # Supabase client 单例
     http.ts            # 统一 fetch 封装：代理 or 直连路由、SSE 流式解析、错误归一化
     crypto.ts           # API Key 本地加密
-  store/               # zustand 全局状态
-  components/          # 通用 UI / 图标 / 布局 / 工作台专用组件
+  store/               # zustand 全局状态（含 useAuthStore）
+  components/
+    auth/              # 登录/账号面板（TopNav 弹窗 + 设置页共用）
+    ...                # 通用 UI / 图标 / 布局 / 工作台专用组件
   pages/               # 路由页面（首页 / 工作台四个子页 / 任务中心 / 画廊 / 设置）
-  server/proxy-core.ts # 三平台共享的代理核心逻辑
+  server/proxy-core.ts # 三平台共享的代理核心逻辑（含 handleImageRelay）
 functions/api/agnes/[[path]].ts   # Cloudflare Pages Functions 入口
 api/agnes/[...path].ts            # Vercel Edge Function 入口
 netlify/edge-functions/proxy.ts   # Netlify Edge Function 入口
+supabase/schema.sql                # 云同步所需的表结构 / RLS 策略 / Storage 桶，见「云同步」
 ```
 
 ## 部署到托管平台（详细教程）

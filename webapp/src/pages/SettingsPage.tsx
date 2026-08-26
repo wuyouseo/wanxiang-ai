@@ -6,6 +6,7 @@ import { Modal } from "../components/ui/Modal";
 import { SegmentedControl } from "../components/ui/SegmentedControl";
 import { Slider } from "../components/ui/Slider";
 import { Switch } from "../components/ui/Switch";
+import { AccountPanel } from "../components/auth/AccountPanel";
 import { IMAGE_RATIOS, IMAGE_SIZE_TIERS, VIDEO_MAX_SECONDS, VIDEO_MIN_SECONDS } from "../lib/constants";
 import { useHistoryStore } from "../store/useHistoryStore";
 import { useSettingsStore } from "../store/useSettingsStore";
@@ -50,8 +51,15 @@ export function SettingsPage() {
     <div className="mx-auto max-w-3xl px-5 py-8 md:px-8">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold">设置中心</h1>
-        <p className="mt-1 text-sm text-text-muted">无管理后台 —— 所有配置均保存在你的浏览器本地</p>
+        <p className="mt-1 text-sm text-text-muted">
+          API Key 与偏好设置始终保存在本设备；登录后，生成记录会额外同步到云端
+        </p>
       </div>
+
+      <Card className="mb-6 flex flex-col gap-5 p-6">
+        <h2 className="text-base font-semibold">账号与云同步</h2>
+        <AccountPanel />
+      </Card>
 
       <Card className="mb-6 flex flex-col gap-5 p-6">
         <h2 className="text-base font-semibold">API Key 配置</h2>

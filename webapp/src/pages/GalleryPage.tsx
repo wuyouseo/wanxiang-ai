@@ -6,6 +6,7 @@ import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Modal } from "../components/ui/Modal";
 import { useHistoryStore } from "../store/useHistoryStore";
+import { useAuthStore } from "../store/useAuthStore";
 import { useTransferStore } from "../store/useTransferStore";
 import { toast } from "../store/useToastStore";
 import type { FeatureType, HistoryItem } from "../lib/types";
@@ -38,6 +39,7 @@ function timeAgo(ts: number): string {
 
 export function GalleryPage() {
   const { items, loaded, refresh, toggleFavorite, remove, clearAll, exportJSON, importJSON } = useHistoryStore();
+  const user = useAuthStore((s) => s.user);
   const navigate = useNavigate();
   const setPendingReuse = useTransferStore((s) => s.setPendingReuse);
   const [kindFilter, setKindFilter] = useState<KindFilter>("all");
@@ -90,7 +92,9 @@ export function GalleryPage() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold">历史画廊</h1>
-          <p className="mt-1 text-sm text-text-muted">本地保存的生成记录，支持收藏、复用参数、下载与删除</p>
+          <p className="mt-1 text-sm text-text-muted">
+            {user ? "云端同步的生成记录" : "本地保存的生成记录"}，支持收藏、复用参数、下载与删除
+          </p>
         </div>
         <div className="flex gap-2">
           <Button size="sm" icon="download" onClick={handleExport}>

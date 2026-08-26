@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Icon } from "../icons/Icon";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "../ui/ThemeToggle";
+import { Modal } from "../ui/Modal";
+import { AccountPanel } from "../auth/AccountPanel";
 import { useSettingsStore } from "../../store/useSettingsStore";
 import { useTaskStore } from "../../store/useTaskStore";
+import { useAuthStore } from "../../store/useAuthStore";
+import { isSupabaseConfigured } from "../../lib/supabase";
 
 const navItems = [
   { to: "/studio/text-to-image", label: "创作工作台", match: "/studio" },
@@ -22,8 +27,10 @@ const keyStatusMeta = {
 export function TopNav() {
   const keyStatus = useSettingsStore((s) => s.keyStatus);
   const pending = useTaskStore((s) => s.pendingCount());
+  const user = useAuthStore((s) => s.user);
   const meta = keyStatusMeta[keyStatus];
   const location = useLocation();
+  const [accountOpen, setAccountOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border-subtle bg-canvas/80 px-6 backdrop-blur-xl lg:px-8">
@@ -57,6 +64,22 @@ export function TopNav() {
           <span className="text-xs text-text-secondary">{meta.label}</span>
         </div>
         <ThemeToggle />
+        {isSupabaseConfigured && (
+          <button
+            onClick={() => setAccountOpen(true)}
+            aria-label={user ? "账号与云同步" : "登录"}
+            className="focus-ring flex h-9 items-center gap-2 rounded-control border border-border-subtle px-3 text-xs text-text-secondary transition-colors hover:border-border-strong hover:text-text-primary"
+          >
+            {user ? (
+              <>
+                <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                <span className="hidden max-w-[7rem] truncate sm:inline">{user.email}</span>
+              </>
+            ) : (
+              "登录"
+            )}
+          </button>
+        )}
         <NavLink
           to="/settings"
           className={({ isActive }) =>
@@ -71,6 +94,10 @@ export function TopNav() {
           <Icon name="gear" size={17} />
         </NavLink>
       </div>
+
+      <Modal open={accountOpen} onClose={() => setAccountOpen(false)} title={user ? "账号与云同步" : "登录"}>
+        <AccountPanel />
+      </Modal>
     </header>
   );
 }
