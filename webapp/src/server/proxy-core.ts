@@ -107,13 +107,18 @@ export function stripProxyPrefix(pathname: string, search: string): string {
   return `${rest || "/"}${search}`;
 }
 
-// Only ever relays from Agnes's own domain. This endpoint exists so the
-// client (lib/storage/artworkUpload.ts) can pull generated image/video bytes
-// same-origin — sidestepping whatever Agnes's CORS policy is — before
-// re-uploading them to Supabase Storage for permanent hosting. Without the
-// host allowlist this would be an open server-side URL fetcher (SSRF), so
-// every request is checked against AGNES_HOST's hostname before fetching.
-const RELAY_ALLOWED_HOSTNAME = new URL(AGNES_HOST).hostname;
+// Only ever relays from a small allowlist of hosts Agnes actually serves
+// generated results from. This endpoint exists so the client
+// (lib/storage/artworkUpload.ts) can pull generated image/video bytes
+// same-origin — sidestepping whatever CORS policy the result host has —
+// before re-uploading them to Supabase Storage for permanent hosting.
+// Without the allowlist this would be an open server-side URL fetcher
+// (SSRF), so every request's host is checked before fetching.
+// storage.googleapis.com is where Agnes's own docs (see
+// docs/API接口文档.md and docs/需求文档.md §4.3) show generated image/video
+// URLs actually being hosted — NOT under api.agnes-ai.cn, which is only the
+// API endpoint. Keep AGNES_HOST's hostname too in case that ever changes.
+const RELAY_ALLOWED_HOSTNAMES = new Set([new URL(AGNES_HOST).hostname, "storage.googleapis.com"]);
 
 export async function handleImageRelay(request: Request): Promise<Response> {
   const target = new URL(request.url).searchParams.get("url");
@@ -125,7 +130,7 @@ export async function handleImageRelay(request: Request): Promise<Response> {
   } catch {
     return jsonResponse({ detail: "url 参数不合法" }, 400);
   }
-  if (targetUrl.protocol !== "https:" || targetUrl.hostname !== RELAY_ALLOWED_HOSTNAME) {
+  if (targetUrl.protocol !== "https:" || !RELAY_ALLOWED_HOSTNAMES.has(targetUrl.hostname)) {
     return jsonResponse({ detail: "不允许转发该域名" }, 400);
   }
 
