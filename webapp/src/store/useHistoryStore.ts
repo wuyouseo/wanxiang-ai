@@ -14,17 +14,21 @@ import {
   getAllCloudHistory,
   updateCloudHistoryItem,
 } from "../lib/storage/cloudHistoryDB";
-import { persistArtworkToStorage } from "../lib/storage/artworkUpload";
+import { deleteArtworkFromStorage, persistArtworkToStorage } from "../lib/storage/artworkUpload";
+import { ADMIN_EMAIL } from "../lib/constants";
 import type { HistoryItem } from "../lib/types";
 import { useAuthStore } from "./useAuthStore";
 import { toast } from "./useToastStore";
 
-// Dual-backend history: signed-out users keep working entirely off the
-// browser's IndexedDB (unchanged from before cloud sync existed); once
-// useAuthStore has a user, every action here reads/writes Supabase instead so
-// history survives switching devices/browsers. Every consumer (GalleryPage,
-// HistoryRail, the workbench panels) only ever touches this store's public
-// shape, so none of them need to know which backend is active.
+// This is the "个人作品" (personal works) backend — always scoped to just
+// the current user, never anyone else's. Signed-out users work entirely off
+// the browser's IndexedDB (unchanged from before cloud sync existed); once
+// useAuthStore has a user, every action here reads/writes that user's own
+// rows in Supabase instead, so history survives switching devices/browsers.
+// Every consumer (GalleryPage's "个人作品" tab, HistoryRail, the workbench
+// panels) only ever touches this store's public shape, so none of them need
+// to know which backend is active. The public, cross-user gallery feed is a
+// separate store — see usePublicGalleryStore.ts.
 
 interface HistoryState {
   items: HistoryItem[];
@@ -49,7 +53,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   refresh: async () => {
     const user = useAuthStore.getState().user;
     try {
-      const items = user ? await getAllCloudHistory() : await getAllHistory();
+      const items = user ? await getAllCloudHistory(user.id) : await getAllHistory();
       set({ items, loaded: true });
     } catch {
       toast.danger("云端历史加载失败，请检查网络后重试");
@@ -96,8 +100,22 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
 
   remove: async (id) => {
     const user = useAuthStore.getState().user;
+    // UI already hides the delete control for non-admin cloud users; this is
+    // the app-layer backstop (the database's delete policy is the real
+    // enforcement — see supabase/schema.sql).
+    if (user && user.email !== ADMIN_EMAIL) {
+      toast.danger("仅管理员可以删除云端历史");
+      return;
+    }
     if (user) {
-      await deleteCloudHistoryItem(id).catch(() => toast.danger("删除失败，请检查网络后重试"));
+      const item = get().items.find((i) => i.id === id);
+      try {
+        await deleteCloudHistoryItem(id);
+      } catch {
+        toast.danger("删除失败，请检查网络后重试");
+        return;
+      }
+      if (item) deleteArtworkFromStorage(item.resultUrl).catch(() => {});
     } else {
       await deleteHistoryItem(id);
     }
@@ -106,6 +124,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
 
   clearAll: async () => {
     const user = useAuthStore.getState().user;
+    if (user && user.email !== ADMIN_EMAIL) {
+      toast.danger("仅管理员可以清空云端历史");
+      return;
+    }
+    const itemsBeforeClear = get().items;
     try {
       if (user) {
         await clearCloudHistory(user.id);
@@ -115,6 +138,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     } catch {
       toast.danger("清空云端历史失败，请检查网络后重试");
       return;
+    }
+    if (user) {
+      for (const item of itemsBeforeClear) {
+        deleteArtworkFromStorage(item.resultUrl).catch(() => {});
+      }
     }
     set({ items: [] });
     toast.info("已清空全部历史记录");

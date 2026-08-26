@@ -23,21 +23,36 @@ create index if not exists history_items_user_created_idx
 
 alter table public.history_items enable row level security;
 
+-- Read is public (product decision: every signed-in user's generated work
+-- shows up in a shared public gallery — see docs/需求文档.md). Anyone,
+-- including a signed-out visitor using the anon key, can list every row.
+-- Nothing sensitive lives in this table (no email/identity beyond an opaque
+-- user_id), so this is safe to open up.
 drop policy if exists "history_items_select_own" on public.history_items;
-create policy "history_items_select_own" on public.history_items
-  for select using (auth.uid() = user_id);
+drop policy if exists "history_items_select_public" on public.history_items;
+create policy "history_items_select_public" on public.history_items
+  for select using (true);
 
 drop policy if exists "history_items_insert_own" on public.history_items;
 create policy "history_items_insert_own" on public.history_items
   for insert with check (auth.uid() = user_id);
 
+-- Update (currently only used for the favorite star) stays owner-only — the
+-- personal-works tab is the only place that toggles it, on your own items.
 drop policy if exists "history_items_update_own" on public.history_items;
 create policy "history_items_update_own" on public.history_items
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- Delete is admin-only, and NOT restricted to own rows: the whole point is
+-- that the site owner can curate/prune anyone's public gallery entry (see
+-- webapp/src/lib/constants.ts's ADMIN_EMAIL, which must match). The
+-- frontend hides delete buttons for everyone else, but this policy is what
+-- actually enforces it — a non-admin calling the API directly gets rejected
+-- here too.
 drop policy if exists "history_items_delete_own" on public.history_items;
-create policy "history_items_delete_own" on public.history_items
-  for delete using (auth.uid() = user_id);
+drop policy if exists "history_items_delete_admin_only" on public.history_items;
+create policy "history_items_delete_admin_only" on public.history_items
+  for delete using ((auth.jwt() ->> 'email') = 'youge51168@gmail.com');
 
 -- ---------------------------------------------------------------------------
 -- 2. Storage 桶：转存后的图片/视频文件（对抗生图服务商临时链接过期）
@@ -64,8 +79,11 @@ create policy "artworks_update_own_folder" on storage.objects
     bucket_id = 'artworks' and (storage.foldername(name))[1] = auth.uid()::text
   );
 
+-- Same admin-only, any-folder rule as history_items_delete_admin_only above,
+-- so the admin deleting someone else's history row can also remove their file.
 drop policy if exists "artworks_delete_own_folder" on storage.objects;
-create policy "artworks_delete_own_folder" on storage.objects
+drop policy if exists "artworks_delete_admin_only" on storage.objects;
+create policy "artworks_delete_admin_only" on storage.objects
   for delete using (
-    bucket_id = 'artworks' and (storage.foldername(name))[1] = auth.uid()::text
+    bucket_id = 'artworks' and (auth.jwt() ->> 'email') = 'youge51168@gmail.com'
   );

@@ -7,9 +7,10 @@ import { SegmentedControl } from "../components/ui/SegmentedControl";
 import { Slider } from "../components/ui/Slider";
 import { Switch } from "../components/ui/Switch";
 import { AccountPanel } from "../components/auth/AccountPanel";
-import { IMAGE_RATIOS, IMAGE_SIZE_TIERS, VIDEO_MAX_SECONDS, VIDEO_MIN_SECONDS } from "../lib/constants";
+import { ADMIN_EMAIL, IMAGE_RATIOS, IMAGE_SIZE_TIERS, VIDEO_MAX_SECONDS, VIDEO_MIN_SECONDS } from "../lib/constants";
 import { useHistoryStore } from "../store/useHistoryStore";
 import { useSettingsStore } from "../store/useSettingsStore";
+import { useAuthStore } from "../store/useAuthStore";
 import { toast } from "../store/useToastStore";
 
 const keyStatusMeta = {
@@ -22,6 +23,8 @@ const keyStatusMeta = {
 export function SettingsPage() {
   const { settings, update, testConnection, testing, keyStatus, resetAll } = useSettingsStore();
   const { exportJSON, importJSON, clearAll } = useHistoryStore();
+  const user = useAuthStore((s) => s.user);
+  const canDeleteHistory = !user || user.email === ADMIN_EMAIL;
   const [showKey, setShowKey] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
   const importRef = useRef<HTMLInputElement>(null);
@@ -176,17 +179,19 @@ export function SettingsPage() {
 
       <Modal open={confirmClear} onClose={() => setConfirmClear(false)} title="确认清空全部数据？">
         <p className="mb-5 text-sm text-text-secondary">
-          将永久删除本地保存的历史记录与设置（含 API Key）。此操作不可恢复。
+          {canDeleteHistory
+            ? `将永久删除${user ? "云端" : "本地"}保存的历史记录与本设备设置（含 API Key）。此操作不可恢复。`
+            : "云端历史记录仅管理员可清空；这里只会重置本设备的设置（含 API Key）。"}
         </p>
         <div className="flex justify-end gap-2">
           <Button onClick={() => setConfirmClear(false)}>取消</Button>
           <Button
             variant="danger"
             onClick={() => {
-              clearAll();
+              if (canDeleteHistory) clearAll();
               resetAll();
               setConfirmClear(false);
-              toast.success("已清空全部本地数据");
+              toast.success(canDeleteHistory ? "已清空全部数据" : "已重置本设备设置");
             }}
           >
             确认清空

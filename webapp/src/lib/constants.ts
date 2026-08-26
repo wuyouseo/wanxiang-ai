@@ -2,6 +2,13 @@ import type { ImageRatio, ImageSizeTier, VideoRatio } from "./types";
 
 export const AGNES_DEFAULT_BASE_URL = "https://api.agnes-ai.cn/v1";
 
+// The only account allowed to delete cloud-synced history/artworks (see
+// supabase/schema.sql's delete policies, which check this same address via
+// auth.jwt() ->> 'email' — this constant is for UI gating only; the database
+// is what actually enforces it). Hardcoded by design per product decision:
+// this is a single-owner site, not a multi-admin system.
+export const ADMIN_EMAIL = "youge51168@gmail.com";
+
 export const TEXT_MODEL = "agnes-2.5-flash";
 export const IMAGE_MODEL = "agnes-image-2.1-flash";
 export const VIDEO_MODEL = "agnes-video-2.5-flash";

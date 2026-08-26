@@ -36,6 +36,25 @@ function extensionFor(blob: Blob, kind: "image" | "video"): string {
   return kind === "video" ? "mp4" : "png";
 }
 
+// Public Storage URLs look like
+// https://<project>.supabase.co/storage/v1/object/public/artworks/<path>
+// — this pulls <path> back out so a history-item delete can also remove the
+// underlying file. Silently no-ops for anything else (e.g. an item whose
+// upload failed and still points at Agnes's original URL) since there's no
+// bucket object to clean up in that case.
+function storagePathFromPublicUrl(url: string): string | null {
+  const marker = `/storage/v1/object/public/${BUCKET}/`;
+  const idx = url.indexOf(marker);
+  return idx === -1 ? null : url.slice(idx + marker.length);
+}
+
+/** Best-effort — deletion is allowed to fail quietly (e.g. RLS rejects a non-admin caller). */
+export async function deleteArtworkFromStorage(resultUrl: string): Promise<void> {
+  const path = storagePathFromPublicUrl(resultUrl);
+  if (!path) return;
+  await supabase.storage.from(BUCKET).remove([path]);
+}
+
 /** Returns the new permanent Storage URL. Throws on any failure — caller decides the fallback. */
 export async function persistArtworkToStorage(
   userId: string,

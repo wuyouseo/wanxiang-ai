@@ -1,12 +1,17 @@
 // Supabase-backed mirror of historyDB.ts, used instead of IndexedDB once a
-// user is signed in. Row Level Security (see supabase/schema.sql) scopes
-// every query to auth.uid(), so `userId` here is only used to build rows to
-// insert — reads/writes to another user's rows are rejected server-side
-// regardless of what this client sends.
-import type { HistoryItem } from "../types";
+// user is signed in — plus the public, cross-user gallery feed (see
+// getPublicHistoryPage). Row Level Security (supabase/schema.sql) makes
+// history_items publicly readable by design (it's a shared gallery), so
+// unlike reads, `userId` filters here are load-bearing: nothing server-side
+// restricts a "my own history" query to actually be your own — the client
+// has to ask for that explicitly. Writes are still enforced server-side
+// (insert/update require auth.uid() = user_id; delete requires the admin
+// email), so a malicious client can't forge those regardless of what it sends.
+import type { FeatureType, HistoryItem } from "../types";
 import { supabase } from "../supabase";
 
 const TABLE = "history_items";
+const PUBLIC_PAGE_SIZE = 24;
 
 interface HistoryRow {
   id: string;
@@ -46,13 +51,37 @@ function itemToRow(userId: string, item: HistoryItem) {
   };
 }
 
-export async function getAllCloudHistory(): Promise<HistoryItem[]> {
+export async function getAllCloudHistory(userId: string): Promise<HistoryItem[]> {
   const { data, error } = await supabase
     .from(TABLE)
     .select("*")
+    .eq("user_id", userId)
     .order("created_at", { ascending: false });
   if (error) throw error;
   return (data as HistoryRow[]).map(rowToItem);
+}
+
+export interface PublicHistoryPage {
+  items: HistoryItem[];
+  hasMore: boolean;
+}
+
+// The shared public gallery: every signed-in user's generated work, newest
+// first, paginated for infinite scroll (see usePublicGalleryStore).
+export async function getPublicHistoryPage(opts: {
+  offset: number;
+  limit?: number;
+  resultKind?: "image" | "video";
+  type?: FeatureType;
+}): Promise<PublicHistoryPage> {
+  const limit = opts.limit ?? PUBLIC_PAGE_SIZE;
+  let query = supabase.from(TABLE).select("*").order("created_at", { ascending: false });
+  if (opts.resultKind) query = query.eq("result_kind", opts.resultKind);
+  if (opts.type) query = query.eq("type", opts.type);
+  const { data, error } = await query.range(opts.offset, opts.offset + limit - 1);
+  if (error) throw error;
+  const items = (data as HistoryRow[]).map(rowToItem);
+  return { items, hasMore: items.length === limit };
 }
 
 // Upsert (not insert) so re-adding the same id — e.g. a retried "sync local
