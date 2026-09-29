@@ -100,7 +100,9 @@ async function attemptFetch(
     return await fetch(url, {
       ...init,
       signal: controller.signal,
-      headers: { ...(init.headers || {}), Authorization: `Bearer ${apiKey}` },
+      // JSON body is the default for every Agnes call; per-init headers may
+      // still override it.
+      headers: { "Content-Type": "application/json", ...(init.headers || {}), Authorization: `Bearer ${apiKey}` },
     });
   } catch (e) {
     if (outerSignal?.aborted) throw e; // user-initiated stop — propagate untouched
