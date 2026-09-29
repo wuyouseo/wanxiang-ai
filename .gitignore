@@ -1,0 +1,14 @@
+.DS_Store
+.claude/scheduled_tasks.lock
+
+# Zip snapshots regenerated on request (see README) — redundant with git
+# history itself, kept out of version control to avoid bloating the repo
+# with binary blobs on every regeneration.
+backups/
+
+# Dependencies / build output / secrets (belt & suspenders; webapp/.gitignore
+# covers the webapp subtree, these cover anything added at the root later)
+node_modules/
+dist/
+.env.local
+*.zip

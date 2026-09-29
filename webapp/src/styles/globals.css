@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Light theme (default) and dark theme (.dark) tokens. Only the "neutral"
+ * surface/text/border tokens flip between the two palettes — accent and
+ * semantic (success/warning/danger) colors stay put so the brand and status
+ * colors read consistently regardless of theme. See tailwind.config.ts,
+ * which wires these into the `base` / `surface` / `text-*` / etc. utilities.
+ */
+:root {
+  --color-base: 250 250 251;
+  --color-surface: 255 255 255;
+  --color-surface-2: 244 245 247;
+  --color-text-primary: 17 19 23;
+  --color-text-secondary: 90 96 107;
+  --color-text-muted: 140 146 158;
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.16);
+
+  --color-accent-violet: 124 92 255;
+  --color-accent-cyan: 20 150 145;
+  --color-success: 16 140 94;
+  --color-warning: 168 97 5;
+  --color-danger: 213 34 68;
+}
+
+.dark {
+  --color-base: 11 12 16;
+  --color-surface: 19 20 24;
+  --color-surface-2: 27 29 36;
+  --color-text-primary: 245 246 248;
+  --color-text-secondary: 154 160 172;
+  --color-text-muted: 92 98 112;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+
+  --color-accent-violet: 124 92 255;
+  --color-accent-cyan: 66 232 224;
+  --color-success: 61 214 140;
+  --color-warning: 245 179 76;
+  --color-danger: 255 92 122;
+}
+
+@layer base {
+  * {
+    @apply border-border-subtle;
+  }
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    background: radial-gradient(1200px 600px at 20% -10%, rgb(var(--color-accent-violet) / 0.10), transparent),
+      radial-gradient(1000px 500px at 100% 0%, rgb(var(--color-accent-cyan) / 0.08), transparent),
+      radial-gradient(900px 700px at 50% 110%, rgb(var(--color-accent-violet) / 0.06), transparent),
+      rgb(var(--color-base));
+    color: rgb(var(--color-text-primary));
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  /* Fixed tech-grid overlay: faint blueprint lines + accent tint in the
+     corners. Purely decorative, sits behind all content. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+  }
+  :root {
+    --grid-line: rgba(124, 92, 255, 0.045);
+  }
+  .dark {
+    --grid-line: rgba(124, 92, 255, 0.07);
+  }
+  ::selection {
+    background: rgb(var(--color-accent-violet) / 0.35);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-text-muted) / 0.35);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-text-muted) / 0.55);
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background-color: rgb(var(--color-text-primary) / 0.035);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-border-subtle);
+  }
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-accent-violet focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
+  }
+  /* Brand gradient text for display headings. */
+  .text-gradient {
+    background: linear-gradient(135deg, #7c5cff 0%, #42e8e0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

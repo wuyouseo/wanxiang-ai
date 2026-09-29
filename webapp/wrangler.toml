@@ -1,0 +1,7 @@
+# Optional — only needed if deploying via the `wrangler pages deploy` CLI
+# instead of the Cloudflare dashboard's Git integration. The dashboard flow
+# (build command `npm run build`, output directory `dist`) needs no config
+# file at all; Pages Functions under /functions are picked up automatically.
+name = "ai-studio"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-01-01"
