@@ -19,7 +19,7 @@ export function Switch({
       }`}
     >
       <span
-        className={`absolute top-0.5 h-4.5 w-4.5 rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition-transform ${
+        className={`absolute left-0 top-0.5 h-4.5 w-4.5 rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition-transform ${
           checked ? "translate-x-5" : "translate-x-0.5"
         }`}
         style={{ height: 18, width: 18 }}
