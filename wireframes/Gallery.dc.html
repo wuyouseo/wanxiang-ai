@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#ffffff; font-family:'Patrick Hand','Segoe Print','Comic Sans MS',cursive,sans-serif; color:#222222; }
+  a { color:#333333; }
+  .wf-label { font-size:12px; color:#999999; }
+  .wf-box { border:1.5px solid #333333; }
+  .wf-box-light { border:1px solid #bbbbbb; }
+  .wf-btn { border:2px solid #222222; border-radius:6px; padding:9px 18px; font-size:15px; background:#ffffff; text-align:center; }
+  .wf-chip { border:1px solid #777777; border-radius:999px; padding:5px 14px; font-size:14px; background:#f6f6f6; }
+  .wf-chip-active { background:#222222; color:#ffffff; border-color:#222222; }
+  .wf-badge { border:1px solid #333333; border-radius:999px; padding:3px 12px; font-size:12px; background:#eeeeee; white-space:nowrap; }
+  .wf-ph { background:#eeeeee; border:1px solid #999999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:#999999; font-size:13px; text-align:center; }
+  .wf-navlink { font-size:15px; padding-bottom:2px; color:#333333; }
+  .wf-navlink-active { border-bottom:2px solid #222222; font-weight:bold; }
+</style>
+</helmet>
+<div style="width:1440px;background:#ffffff;position:relative;">
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#333333" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><circle cx="8" cy="10" r="1.8" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M4 17l5-5 3 3 4-5 4 5" fill="none" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M10 9l6 3-6 3z" fill="#888888"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z" fill="none" stroke="#555555" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star-fill" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z" fill="#333333" stroke="#333333" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="#555555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-reuse" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.6 5.9M4 12V6M4 12h6" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  </svg>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;border-bottom:2px solid #333333;">
+    <div style="display:flex;align-items:center;gap:36px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">A</div>
+        <span style="font-size:19px;font-weight:bold;">AI 创作站</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <span class="wf-navlink">创作工作台</span>
+        <span class="wf-navlink wf-navlink-active">历史画廊</span>
+        <span class="wf-navlink">任务中心</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#222222;"></div>
+        <span style="font-size:14px;color:#555555;">API Key 已连接</span>
+      </div>
+      <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18"><use href="#i-gear"></use></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:32px 48px;display:flex;flex-direction:column;gap:22px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+      <div>
+        <div style="font-size:24px;font-weight:bold;margin-bottom:4px;">历史画廊</div>
+        <span class="wf-label">本地保存的生成记录，支持收藏、复用参数、下载与删除</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <div class="wf-btn">导出</div>
+        <div class="wf-btn">导入</div>
+        <div class="wf-btn" style="border-color:#c62828;color:#c62828;">清空</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;gap:10px;">
+        <span class="wf-chip wf-chip-active">全部</span>
+        <span class="wf-chip">图片</span>
+        <span class="wf-chip">视频</span>
+        <span class="wf-chip">已收藏</span>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <span class="wf-chip">文生图</span>
+        <span class="wf-chip">图生图</span>
+        <span class="wf-chip">多图合成</span>
+        <span class="wf-chip">视频生成</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star-fill"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">文生图</span><span style="font-size:11px;color:#888888;">10分钟前</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-video"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">视频生成</span><span style="font-size:11px;color:#888888;">1小时前</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">图生图</span><span style="font-size:11px;color:#888888;">今天</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">多图合成</span><span style="font-size:11px;color:#888888;">今天</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">文生图</span><span style="font-size:11px;color:#888888;">昨天</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-video"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">视频生成</span><span style="font-size:11px;color:#888888;">2天前</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">图生图</span><span style="font-size:11px;color:#888888;">3天前</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-box-light" style="display:flex;flex-direction:column;position:relative;">
+        <div class="wf-ph" style="height:170px;"><svg width="26" height="26"><use href="#i-image"></use></svg></div>
+        <svg width="18" height="18" style="position:absolute;top:10px;right:10px;"><use href="#i-star-fill"></use></svg>
+        <div style="padding:10px;display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;"><span class="wf-badge">多图合成</span><span style="font-size:11px;color:#888888;">4天前</span></div>
+          <div style="display:flex;gap:14px;color:#555555;">
+            <svg width="15" height="15"><use href="#i-reuse"></use></svg>
+            <svg width="15" height="15"><use href="#i-download"></use></svg>
+            <svg width="15" height="15"><use href="#i-trash"></use></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

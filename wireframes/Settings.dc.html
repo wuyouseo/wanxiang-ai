@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#ffffff; font-family:'Patrick Hand','Segoe Print','Comic Sans MS',cursive,sans-serif; color:#222222; }
+  a { color:#333333; }
+  .wf-label { font-size:12px; color:#999999; }
+  .wf-box { border:1.5px solid #333333; }
+  .wf-box-light { border:1px solid #bbbbbb; }
+  .wf-btn { border:2px solid #222222; border-radius:6px; padding:10px 20px; font-size:15px; background:#ffffff; text-align:center; }
+  .wf-btn-primary { border-width:3px; font-weight:bold; background:#f7f7f7; }
+  .wf-tab { padding:8px 18px; border:1px solid #bbbbbb; font-size:15px; background:#ffffff; }
+  .wf-tab-active { background:#222222; color:#ffffff; border-color:#222222; }
+  .wf-navlink { font-size:15px; padding-bottom:2px; color:#333333; }
+  .wf-field-label { font-size:14px; font-weight:bold; width:150px; flex-shrink:0; }
+  .wf-input { flex:1; border:1px solid #999999; border-radius:6px; padding:10px 14px; font-size:14px; color:#999999; display:flex; align-items:center; justify-content:space-between; }
+  .wf-switch { width:44px; height:24px; border-radius:999px; border:1.5px solid #333333; position:relative; }
+  .wf-switch-on { background:#222222; }
+  .wf-switch-off { background:#ffffff; }
+</style>
+</helmet>
+<div style="width:1440px;background:#ffffff;position:relative;">
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#333333" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M8 11V8a4 4 0 018 0v3" fill="none" stroke="#333333" stroke-width="1.5"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z" fill="none" stroke="#777777" stroke-width="1.5"/><circle cx="12" cy="12" r="2.5" fill="none" stroke="#777777" stroke-width="1.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#2e7d32" stroke-width="1.5"/><path d="M8 12l3 3 5-6" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  </svg>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;border-bottom:2px solid #333333;">
+    <div style="display:flex;align-items:center;gap:36px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">A</div>
+        <span style="font-size:19px;font-weight:bold;">AI 创作站</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <span class="wf-navlink">创作工作台</span>
+        <span class="wf-navlink">历史画廊</span>
+        <span class="wf-navlink">任务中心</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:14px;font-weight:bold;">设置中心</span>
+      <div class="wf-box" style="width:36px;height:36px;border-width:3px;display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18"><use href="#i-gear"></use></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:32px 48px;display:flex;flex-direction:column;gap:24px;max-width:920px;">
+    <div>
+      <div style="font-size:24px;font-weight:bold;margin-bottom:4px;">设置中心</div>
+      <span class="wf-label">无管理后台 —— 所有配置均保存在你的浏览器本地</span>
+    </div>
+
+    <div class="wf-box" style="padding:26px;display:flex;flex-direction:column;gap:18px;">
+      <div style="font-size:16px;font-weight:bold;">API Key 配置</div>
+
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">Agnes API Key</span>
+        <div class="wf-input">[输入框：sk-xxxxxxxxxxxxxxxxxxxx] <svg width="18" height="18"><use href="#i-eye"></use></svg></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">Base URL</span>
+        <div class="wf-input">https://api.agnes-ai.cn/v1（可编辑，默认值）</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label"></span>
+        <div class="wf-btn">测试连接</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:14px;color:#2e7d32;"><svg width="16" height="16"><use href="#i-check"></use></svg>连接状态：已连接</div>
+      </div>
+
+      <div class="wf-box-light" style="padding:16px 18px;display:flex;align-items:center;gap:14px;">
+        <svg width="26" height="26"><use href="#i-lock"></use></svg>
+        <span style="font-size:13px;color:#555555;">[隐私说明：你的密钥仅加密保存在本设备浏览器中，本站不会以任何形式上传或留存]</span>
+      </div>
+    </div>
+
+    <div class="wf-box-light" style="padding:26px;display:flex;flex-direction:column;gap:18px;">
+      <div style="font-size:16px;font-weight:bold;">默认参数</div>
+
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">默认图片尺寸</span>
+        <div style="display:flex;gap:8px;">
+          <div class="wf-tab wf-tab-active">1K</div><div class="wf-tab">2K</div><div class="wf-tab">3K</div><div class="wf-tab">4K</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">默认比例</span>
+        <div style="display:flex;gap:8px;">
+          <div class="wf-tab wf-tab-active">1:1</div><div class="wf-tab">16:9</div><div class="wf-tab">9:16</div><div class="wf-tab">4:3</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">默认视频时长</span>
+        <div class="wf-box-light" style="flex:1;max-width:300px;height:6px;position:relative;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:20%;background:#333333;"></div>
+          <div class="wf-box" style="position:absolute;left:20%;top:-6px;width:14px;height:14px;border-radius:50%;background:#ffffff;"></div>
+        </div>
+        <span style="font-size:13px;color:#777777;">5 秒</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">默认开启提示词优化</span>
+        <div class="wf-switch wf-switch-on"><div style="position:absolute;right:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#ffffff;"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">Thinking 模式</span>
+        <div class="wf-switch wf-switch-off"><div style="position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#999999;"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="wf-field-label">界面语言</span>
+        <div class="wf-input" style="max-width:220px;">简体中文 <svg width="16" height="16"><use href="#i-chevron-down"></use></svg></div>
+        <span class="wf-label">（预留多语言，二期）</span>
+      </div>
+    </div>
+
+    <div class="wf-box-light" style="padding:26px;display:flex;flex-direction:column;gap:16px;">
+      <div style="font-size:16px;font-weight:bold;">数据管理</div>
+      <div style="display:flex;gap:14px;">
+        <div class="wf-btn">导出本地数据</div>
+        <div class="wf-btn">导入本地数据</div>
+        <div class="wf-btn" style="border-color:#c62828;color:#c62828;">清空全部数据</div>
+      </div>
+      <span class="wf-label">清空操作不可恢复，执行前需二次确认</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

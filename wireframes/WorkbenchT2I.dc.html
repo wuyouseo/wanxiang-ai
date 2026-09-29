@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; background:#ffffff; font-family:'Patrick Hand','Segoe Print','Comic Sans MS',cursive,sans-serif; color:#222222; }
+  a { color:#333333; }
+  .wf-label { font-size:12px; color:#999999; }
+  .wf-box { border:1.5px solid #333333; }
+  .wf-box-light { border:1px solid #bbbbbb; }
+  .wf-dash { border:2px dashed #666666; }
+  .wf-btn { border:2px solid #222222; border-radius:6px; padding:10px 22px; font-size:17px; background:#ffffff; text-align:center; }
+  .wf-btn-primary { border-width:3px; font-weight:bold; background:#f7f7f7; }
+  .wf-chip { border:1px solid #777777; border-radius:999px; padding:5px 14px; font-size:14px; background:#f6f6f6; }
+  .wf-badge { border:1px solid #333333; border-radius:999px; padding:3px 12px; font-size:13px; background:#eeeeee; white-space:nowrap; }
+  .wf-ph { background:#eeeeee; border:1px solid #999999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:#999999; font-size:13px; text-align:center; }
+  .wf-tab { padding:12px 18px; border:1px solid #bbbbbb; font-size:16px; background:#ffffff; display:flex; align-items:center; gap:10px; }
+  .wf-tab-active { background:#222222; color:#ffffff; border-color:#222222; }
+  .wf-navlink { font-size:15px; padding-bottom:2px; color:#333333; }
+  .wf-navlink-active { border-bottom:2px solid #222222; font-weight:bold; }
+</style>
+</helmet>
+<div style="width:1440px;background:#ffffff;position:relative;">
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><circle cx="8" cy="10" r="1.8" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M4 17l5-5 3 3 4-5 4 5" fill="none" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#888888" stroke-width="1.5"/><path d="M10 9l6 3-6 3z" fill="#888888"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="#333333" stroke-width="1.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="#333333" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z" fill="#333333"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M8 11l4 4 4-4M5 19h14" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6z" fill="none" stroke="#555555" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="1.5" fill="none" stroke="#555555" stroke-width="1.4"/><rect x="4" y="4" width="11" height="11" rx="1.5" fill="none" stroke="#555555" stroke-width="1.4"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6" fill="none" stroke="#555555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  </svg>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 32px;border-bottom:2px solid #333333;">
+    <div style="display:flex;align-items:center;gap:36px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;">A</div>
+        <span style="font-size:19px;font-weight:bold;">AI 创作站</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:26px;">
+        <span class="wf-navlink wf-navlink-active">创作工作台</span>
+        <span class="wf-navlink">历史画廊</span>
+        <span class="wf-navlink">任务中心</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#222222;"></div>
+        <span style="font-size:14px;color:#555555;">API Key 已连接</span>
+      </div>
+      <div class="wf-box" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+        <svg width="18" height="18"><use href="#i-gear"></use></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:flex-start;">
+    <div style="width:220px;border-right:1px solid #bbbbbb;padding:24px 16px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;">
+      <span class="wf-label" style="margin-bottom:4px;">创作功能</span>
+      <div class="wf-tab wf-tab-active"><svg width="18" height="18"><use href="#i-image"></use></svg>文生图</div>
+      <div class="wf-tab"><svg width="18" height="18"><use href="#i-image"></use></svg>图生图</div>
+      <div class="wf-tab"><svg width="18" height="18"><use href="#i-image"></use></svg>多图合成</div>
+      <div class="wf-tab"><svg width="18" height="18"><use href="#i-video"></use></svg>视频生成</div>
+    </div>
+
+    <div style="flex:1;padding:32px 40px;display:flex;flex-direction:column;gap:22px;min-width:0;">
+      <div>
+        <div style="font-size:24px;font-weight:bold;margin-bottom:4px;">文生图 Text-to-Image</div>
+        <span class="wf-label">输入文字描述，生成图片</span>
+      </div>
+
+      <div class="wf-box" style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div style="min-height:88px;color:#999999;font-size:15px;line-height:1.5;">[提示词输入框 —— 例如：一只橘猫坐在雨后的窗台上，柔和的晨光，电影感]</div>
+        <div style="display:flex;justify-content:flex-end;">
+          <div class="wf-chip" style="display:flex;align-items:center;gap:6px;">
+            <svg width="15" height="15"><use href="#i-sparkle"></use></svg>
+            优化提示词
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-dash" style="padding:14px;color:#888888;font-size:14px;line-height:1.6;">
+        [提示词优化对比区 —— 点击"优化提示词"后在此展开：左侧原文（只读）／右侧 AI 改写结果（可编辑，流式生成）；下方提供「采用」「放弃」按钮，采用后替换主输入框内容]
+      </div>
+
+      <div class="wf-box-light" style="padding:20px;display:flex;flex-direction:column;gap:18px;">
+        <div style="display:flex;align-items:center;gap:20px;">
+          <span class="wf-label" style="width:56px;">尺寸</span>
+          <div style="display:flex;gap:8px;">
+            <div class="wf-tab wf-tab-active" style="padding:8px 18px;">1K</div>
+            <div class="wf-tab" style="padding:8px 18px;">2K</div>
+            <div class="wf-tab" style="padding:8px 18px;">3K</div>
+            <div class="wf-tab" style="padding:8px 18px;">4K</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:20px;">
+          <span class="wf-label" style="width:56px;padding-top:10px;">比例</span>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light wf-box" style="width:36px;height:36px;"></div><span style="font-size:11px;color:#777777;">1:1</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:30px;height:40px;"></div><span style="font-size:11px;color:#777777;">3:4</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:40px;height:30px;"></div><span style="font-size:11px;color:#777777;">4:3</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:44px;height:25px;"></div><span style="font-size:11px;color:#777777;">16:9</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:25px;height:44px;"></div><span style="font-size:11px;color:#777777;">9:16</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:28px;height:42px;"></div><span style="font-size:11px;color:#777777;">2:3</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:42px;height:28px;"></div><span style="font-size:11px;color:#777777;">3:2</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div class="wf-box-light" style="width:44px;height:19px;"></div><span style="font-size:11px;color:#777777;">21:9</span></div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:#999999;">预计输出：1024 × 1024 px</div>
+      </div>
+
+      <div class="wf-btn wf-btn-primary" style="font-size:19px;">生成图片</div>
+
+      <div>
+        <span class="wf-label">生成结果</span>
+        <div class="wf-ph" style="height:400px;margin-top:8px;">
+          <svg width="46" height="46"><use href="#i-image"></use></svg>
+          <span>生成结果预览（图片）</span>
+        </div>
+        <div style="display:flex;gap:22px;margin-top:10px;color:#666666;font-size:14px;">
+          <span style="display:flex;align-items:center;gap:6px;"><svg width="16" height="16"><use href="#i-download"></use></svg>下载</span>
+          <span style="display:flex;align-items:center;gap:6px;"><svg width="16" height="16"><use href="#i-star"></use></svg>收藏</span>
+          <span style="display:flex;align-items:center;gap:6px;"><svg width="16" height="16"><use href="#i-copy"></use></svg>复制提示词</span>
+          <span style="display:flex;align-items:center;gap:6px;"><svg width="16" height="16"><use href="#i-image"></use></svg>以此图继续图生图</span>
+          <span style="display:flex;align-items:center;gap:6px;"><svg width="16" height="16"><use href="#i-expand"></use></svg>放大查看</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:280px;border-left:1px solid #bbbbbb;padding:24px 16px;display:flex;flex-direction:column;gap:14px;flex-shrink:0;">
+      <span class="wf-label">最近生成（点击可设为输入图）</span>
+      <div class="wf-box-light" style="display:flex;flex-direction:column;">
+        <div class="wf-ph" style="height:130px;"><svg width="24" height="24"><use href="#i-image"></use></svg><span>缩略图</span></div>
+        <div style="padding:8px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:#888888;">3分钟前</span><span style="font-size:12px;text-decoration:underline;">设为输入图</span></div>
+      </div>
+      <div class="wf-box-light" style="display:flex;flex-direction:column;">
+        <div class="wf-ph" style="height:130px;"><svg width="24" height="24"><use href="#i-image"></use></svg><span>缩略图</span></div>
+        <div style="padding:8px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:#888888;">1小时前</span><span style="font-size:12px;text-decoration:underline;">设为输入图</span></div>
+      </div>
+      <div class="wf-box-light" style="display:flex;flex-direction:column;">
+        <div class="wf-ph" style="height:130px;"><svg width="24" height="24"><use href="#i-image"></use></svg><span>缩略图</span></div>
+        <div style="padding:8px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:#888888;">昨天</span><span style="font-size:12px;text-decoration:underline;">设为输入图</span></div>
+      </div>
+      <div class="wf-box-light" style="display:flex;flex-direction:column;">
+        <div class="wf-ph" style="height:130px;"><svg width="24" height="24"><use href="#i-image"></use></svg><span>缩略图</span></div>
+        <div style="padding:8px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px;color:#888888;">2天前</span><span style="font-size:12px;text-decoration:underline;">设为输入图</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
